@@ -1,0 +1,82 @@
+---
+title: "Introduction to StatComp20030"
+author: "Wenyi Li"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to StatComp20030}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+## Overview
+
+__StatComp20030__ is a simple R package, which is used for simple hypothesis testing, interval estimation and random number generation. Two functions are considered, namely, _laplace.randnum_ (generate random nubers for Laplace distribution) and _sigma.test_ (variance hypothesis test and interval estimation for single normal population)
+
+
+## Exhibition _sigma.test_ and _laplace.randnum_
+
+When the variance of a single normal population needs to be tested and interval estimated, we can use _sigma.test_ function to judge the unilateral hypothesis and bilateral hypothesis of variance, and generating estimators of  confidence intervals.
+The source R code for _sigma.test_ is as follows:
+```{r,eval=FALSE}
+sigma2test<-function(x,mu,sigma,hypothesis,a){
+  n=length(x)
+  s2=var(x)
+  
+  if(hypothesis=='equal'){
+    interl=(n-1)*s2/qchisq(1-(a/2),n-1)
+    interr=(n-1)*s2/qchisq(a/2,n-1)
+    inter=c(interl,interr)
+    c=(n-1)*s2/sigma^2
+    if(c>qchisq(a/2,n-1)&&c<qchisq(1-(a/2),n-1))
+      AoR='accept'
+    else AoR='reject'
+    result=list('original hypothesis'=AoR,'interval estimation'=inter)
+  }  
+  if(hypothesis=='greater'){
+    interl=(n-1)*s2/qchisq(1-(a/2),n-1)
+    interr=(n-1)*s2/qchisq(a/2,n-1)
+    inter=c(interl,interr)
+    c=(n-1)*s2/sigma^2
+    if(c<qchisq(a,n-1))
+      AoR='reject'
+    else AoR='accept'
+    result=list('original hypothesis'=AoR,'interval estimation'=inter)
+  }
+  if(hypothesis=='less'){
+    interl=0
+    interr=(n-1)*s2/qchisq((1-a),n-1)
+    inter=c(interl,interr)
+    c=(n-1)*s2/sigma^2
+    if(c>qchisq(1-a,n-1))
+      AoR='reject'
+    else AoR='accept'
+    result=list('original hypothesis'=AoR,'interval estimation'=inter)
+  }
+  return(result) 
+}
+```
+
+
+
+When generating the random numbers of the laplace distribution,  we can use function _laplace.randnum_ ,here is an example to use the function to draw a density histogram.
+The source R code for  we can use _laplace.randnum_ is as follows:
+```{r,eval=FALSE}
+laplacerandnum<-function(n,beta,mu){
+  u<-runif(n)
+  x<-numeric(n)
+  for (i in 1:n){
+    if(u[i]>=0.5)
+      x[i]<-mu-beta*log(1-u[i])
+    else
+      x[i]<-mu+beta*log(u[i])
+  }
+  return(x)
+}
+
+```
+
+
+
+
+
+

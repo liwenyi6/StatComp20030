@@ -1,0 +1,16 @@
+Package: StatComp20030
+Type: Package
+Title: The final project
+Version: 1.0
+Date: 2020-12-17
+Author: Wenyi Li
+Maintainer: Wenyi Li <1136808378@qq.com>
+Description: Several R and Rcpp functions are included in this package for illustration.
+License: GPL (>= 2)
+Imports: Rcpp (>= 1.0.5), microbenchmark, knitr, rmarkdown, Ball, DAAG, MASS, RANN, boot, bootstrap, energy
+LinkingTo: Rcpp
+RoxygenNote: 7.1.1
+Encoding: UTF-8
+VignetteBuilder: knitr
+URL: http://github.com/liwenyi6/StatComp20030
+BugReports: http://github.com/liwenyi6/StatComp20030/issues
